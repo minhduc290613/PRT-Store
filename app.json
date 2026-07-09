@@ -1,0 +1,20 @@
+[
+    {
+        "name": "SmartTube Stable",
+        "icon": "https://raw.githubusercontent.com/yuliskov/SmartTube/master/screenies/logo.png",
+        "description": "Xem YouTube không quảng cáo, chặn tài trợ.",
+        "url": "https://file.duytuan.top/SmartTube_Stable.apk"
+    },
+    {
+        "name": "Kodi Media TV",
+        "icon": "https://kodi.tv/assets/images/resources/logo-og.png",
+        "description": "Trình phát đa phương tiện mạnh mẽ cho TV.",
+        "url": "https://example.com/kodi.apk"
+    },
+    {
+        "name": "VLC for Android",
+        "icon": "https://images.videolan.org/images/vlc-orange.svg",
+        "description": "Trình xem video mọi định dạng từ USB/Mạng.",
+        "url": "https://example.com/vlc.apk"
+    }
+]
