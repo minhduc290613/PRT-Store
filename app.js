@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     // ĐỔI THÀNH LINK GITHUB THỰC TẾ CỦA BẠN
-    const JSON_URL = "https://raw.githubusercontent.com/minhduc290613/PRT-Store/refs/heads/main/apps.json";
+    const JSON_URL = "https://minhduc290613.github.io/PRT-Store/apps.json";
 
     const appGrid = document.querySelector(".app-grid");
     const downloadBtn = document.getElementById("download-btn");
