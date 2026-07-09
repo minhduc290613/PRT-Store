@@ -155,3 +155,20 @@ button:focus, button.active {
     font-weight: bold;
     color: var(--accent-color);
 }
+
+/* Hiển thị mã code cạnh tên App */
+.app-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+.app-code-badge {
+    background-color: var(--accent-color);
+    color: #000;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
