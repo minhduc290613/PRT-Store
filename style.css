@@ -1,0 +1,157 @@
+:root {
+    --bg-color: #121214;
+    --card-bg: #1e1e24;
+    --accent-color: #00e5ff;
+    --text-color: #ffffff;
+    --text-dim: #aaaaaa;
+}
+
+html {
+  background-image: url('image/backgroud.jpg');
+  background-size: cover; /* Phóng ảnh vừa màn hình */
+  background-repeat: no-repeat; /* Không lặp lại ảnh */
+  background-position: center; /* Căn giữa ảnh */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    display: flex;
+    justify-content: center;
+    overflow-x: hidden;
+}
+
+.container {
+    width: 90%;
+    max-width: 1200px;
+    padding: 40px 0;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: bold;
+    font-size: 24px;
+    color: var(--accent-color);
+}
+
+.downloader-box {
+    background-color: var(--card-bg);
+    padding: 30px;
+    border-radius: 12px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+}
+
+.input-group {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+input[type="text"] {
+    flex: 1;
+    padding: 15px;
+    border-radius: 8px;
+    border: 2px solid #333;
+    background-color: #121214;
+    color: #fff;
+    font-size: 18px;
+    outline: none;
+}
+
+button {
+    padding: 15px 30px;
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 8px;
+    color: #000;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* HIỆU ỨNG FOCUS CHO REMOTE TV */
+.focusable:focus, .focusable.active {
+    border-color: var(--accent-color) !important;
+    outline: none;
+    transform: scale(1.03);
+    background-color: #2a2a35;
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+    transition: all 0.2s ease;
+}
+
+button:focus, button.active {
+    background-color: #fff;
+    color: #000;
+}
+
+.section-title {
+    margin-bottom: 20px;
+    font-size: 22px;
+    color: var(--text-dim);
+}
+
+.app-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.app-card {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    cursor: pointer;
+    border: 2px solid transparent;
+}
+
+/* ĐỊNH DẠNG KHUNG LOGO/ICON DẠNG HÌNH ẢNH */
+.app-icon {
+    width: 65px;
+    height: 65px;
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2a2a35;
+    flex-shrink: 0; /* Giữ icon không bị móp khi text quá dài */
+}
+
+.app-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ép ảnh vừa vặn với ô vuông không bị méo */
+}
+
+.app-info h4 {
+    margin: 0 0 5px 0;
+    font-size: 20px;
+}
+
+.app-info p {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 14px;
+}
+
+#status-message {
+    margin-top: 15px;
+    font-weight: bold;
+    color: var(--accent-color);
+}
