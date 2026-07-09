@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-    // ĐỔI THÀNH LINK GITHUB CỦA BẠN
+    // ĐỔI THÀNH LINK GITHUB THỰC TẾ CỦA BẠN
     const JSON_URL = "https://raw.githubusercontent.com/minhduc290613/PRT-Store/refs/heads/main/apps.json";
 
     const appGrid = document.querySelector(".app-grid");
@@ -9,8 +9,6 @@ document.addEventListener("DOMContentLoaded", () => {
     
     let focusables = [];
     let focusIndex = 0;
-    
-    // Biến lưu trữ dữ liệu app để quét mã số
     let appDatabase = []; 
 
     // 1. Tải dữ liệu từ GitHub
@@ -29,7 +27,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 card.setAttribute("tabindex", "0");
                 card.setAttribute("data-url", app.url);
                 
-                // Hiển thị cả tên, logo và mã số rút gọn trên giao diện
                 card.innerHTML = `
                     <div class="app-icon">
                         <img src="${app.icon}" alt="${app.name}" onerror="this.src='https://placehold.co/100?text=App'">
@@ -43,7 +40,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 `;
                 
-                card.addEventListener("click", () => handleDownload(app.url));
+                // TRUYỀN THÊM TÊN APP VÀO HÀM TẢI XUỐNG
+                card.addEventListener("click", () => handleDownload(app.url, app.name));
                 appGrid.appendChild(card);
             });
 
@@ -84,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
-    // 3. XỬ LÝ NHẬP MÃ SỐ HOẶC LINK
+    // 3. XỬ LÝ KHI BẤM NÚT TẢI XUỐNG
     downloadBtn.addEventListener("click", () => {
         let inputVal = urlInput.value.trim();
         
@@ -93,63 +91,69 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        // Nếu người dùng nhập link bắt đầu bằng http hoặc https
+        // Trường hợp 1: Người dùng nhập LINK trực tiếp
         if (inputVal.toLowerCase().startsWith("http")) {
-            handleDownload(inputVal);
+            handleDownload(inputVal, " can_caidat");
         } 
-        // Nếu người dùng nhập mã số (Dò tìm trong file JSON)
+        // Trường hợp 2: Người dùng nhập MÃ SỐ rút gọn
         else {
-            // Quét xem có app nào có mã code trùng với số người dùng nhập không
             const foundApp = appDatabase.find(app => app.code === inputVal);
             
             if (foundApp) {
                 statusMsg.innerText = `Tìm thấy: ${foundApp.name}. Đang kết nối...`;
-                // Nếu tìm thấy mã, gọi hàm tải với link tương ứng
-                handleDownload(foundApp.url);
+                // TRUYỀN ĐÚNG LINK VÀ TÊN CỦA APP ĐÃ TÌM THẤY
+                handleDownload(foundApp.url, foundApp.name);
             } else {
-                statusMsg.innerText = "❌ Mã số không tồn tại trong hệ thống!";
+                statusMsg.innerText = "❌ Mã số không tồn tại trên hệ thống!";
             }
         }
     });
 
-    // 4. Chức năng tải và cài đặt
-    function handleDownload(url) {
-        statusMsg.innerText = "Đang tải xuống tệp tin APK...";
+    // 4. HÀM TẢI XUỐNG VÀ ÉP ĐUÔI FILE .APK
+    function handleDownload(url, appName) {
+        // Tự động chuyển đổi tên App thành dạng viết liền không dấu để làm tên file an toàn
+        // Ví dụ: "SmartTube Stable" -> "SmartTube_Stable.apk"
+        const safeName = appName ? appName.replace(/[^a-zA-Z0-9]/g, "_") : "ung_dung";
+        const fileName = `${safeName}.apk`;
+
+        statusMsg.innerText = `Đang tải xuống: ${fileName}...`;
 
         if (window.cordova) {
-            downloadAndInstallAPK(url);
+            // Chạy trên Android TV (Cordova)
+            downloadAndInstallAPK(url, fileName);
         } else {
-            statusMsg.innerText = "Trình duyệt: Đang tải tệp về máy tính...";
+            // Chạy thử nghiệm trên trình duyệt Máy tính -> Ép trình duyệt phải lưu file đuôi .apk
             const a = document.createElement("a");
             a.href = url;
-            a.download = url.split('/').pop();
+            a.download = fileName; 
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
         }
     }
 
-    function downloadAndInstallAPK(url) {
+    // 5. HÀM NATIVE ĐÓNG GÓI APK (Tự động chạy khi port sang TV)
+    function downloadAndInstallAPK(url, fileName) {
         const fileTransfer = new FileTransfer();
-        const fileName = url.split('/').pop();
+        // Ép đường dẫn lưu trữ luôn luôn kết thúc bằng tên file .apk chuẩn
         const fileURL = cordova.file.externalRootDirectory + "Download/" + fileName;
 
         fileTransfer.download(
             url,
             fileURL,
             function(entry) {
-                statusMsg.innerText = "Tải thành công! Đang mở bảng cài đặt...";
+                statusMsg.innerText = "Tải xong! Đang mở trình cài đặt...";
                 cordova.plugins.fileOpener2.open(
                     entry.toURL(),
                     'application/vnd.android.package-archive',
                     {
-                        error: (e) => { statusMsg.innerText = 'Lỗi thực thi cài đặt: ' + e.message; },
-                        success: () => { statusMsg.innerText = 'Đã mở bảng cài đặt.'; }
+                        error: (e) => { statusMsg.innerText = 'Lỗi mở file: ' + e.message; },
+                        success: () => { statusMsg.innerText = 'Đã mở bảng cài đặt hệ thống.'; }
                     }
                 );
             },
             function(error) {
-                statusMsg.innerText = "Lỗi tải tệp. Vui lòng thử lại!";
+                statusMsg.innerText = "Lỗi tải file APK. Vui lòng kiểm tra lại Link gốc!";
             },
             false
         );
