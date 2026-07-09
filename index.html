@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRT Store</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#00e5ff" stroke-width="2">
+                    <line x1="6" y1="3" x2="6" y2="5"></line>
+                    <line x1="18" y1="3" x2="18" y2="5"></line>
+                    <rect x="2" y="5" width="20" height="14" rx="2"></rect>
+                    <line x1="12" y1="19" x2="12" y2="21"></line>
+                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                </svg>
+                <span>PRT STORE</span>
+            </div>
+            <h1>Tải Ứng Dụng Cho Android TV</h1>
+        </header>
+
+        <section class="downloader-box">
+            <h3>Tải bằng đường dẫn (URL)</h3>
+            <div class="input-group">
+                <input type="text" id="url-input" placeholder="Nhập link trực tiếp .apk tại đây..." value="" class="focusable">
+                <button id="download-btn" class="focusable">TẢI XUỐNG</button>
+            </div>
+            <div id="status-message">Đang khởi tạo ứng dụng...</div>
+        </section>
+
+        <h3 class="section-title">Ứng dụng phổ biến</h3>
+        <section class="app-grid">
+            </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
