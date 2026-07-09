@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     // ĐƯỜNG DẪN FILE JSON TRÊN GITHUB CỦA BẠN (Thay đổi thông tin tài khoản của bạn tại đây)
-    const JSON_URL = "https://ten-tai-khoan.github.io/tv-dl-store/apps.json";
+    const JSON_URL = "https://vandekn.qzz.io/PRT-Store/apps.json";
 
     const appGrid = document.querySelector(".app-grid");
     const downloadBtn = document.getElementById("download-btn");
