@@ -11,14 +11,26 @@ document.addEventListener("DOMContentLoaded", () => {
     let focusIndex = 0;
     let appDatabase = []; 
 
-    // 1. Tải dữ liệu từ GitHub
+    // 1. Tải dữ liệu từ GitHub (Đã nâng cấp bộ lọc lỗi)
     async function loadAppsFromGitHub() {
         try {
             statusMsg.innerText = "Đang đồng bộ dữ liệu...";
+            // Gọi fetch lấy dữ liệu
             const response = await fetch(`${JSON_URL}?t=${new Date().getTime()}`);
-            if (!response.ok) throw new Error("Không thể kết nối");
             
-            appDatabase = await response.json();
+            // Nếu link sai (404) hoặc không kết nối được
+            if (!response.ok) {
+                throw new Error(`Lỗi kết nối mạng! (Mã lỗi: ${response.status})`);
+            }
+            
+            // Thử phân tích cú pháp JSON
+            try {
+                appDatabase = await response.json();
+            } catch (jsonParseError) {
+                // Nếu chạy vào đây nghĩa là Link đúng, nhưng file apps.json viết sai cú pháp
+                throw new Error("❌ File apps.json bị lỗi cú pháp (Thừa/thiếu dấu phẩy hoặc ngoặc)!");
+            }
+            
             appGrid.innerHTML = ""; 
 
             appDatabase.forEach(app => {
@@ -40,7 +52,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     </div>
                 `;
                 
-                // TRUYỀN THÊM TÊN APP VÀO HÀM TẢI XUỐNG
                 card.addEventListener("click", () => handleDownload(app.url, app.name));
                 appGrid.appendChild(card);
             });
@@ -50,7 +61,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         } catch (error) {
             console.error(error);
-            statusMsg.innerText = "Lỗi kết nối máy chủ dữ liệu!";
+            // Hiện thẳng thông báo chi tiết lỗi lên màn hình TV/Trình duyệt để sửa ngay
+            statusMsg.innerText = error.message; 
         }
     }
 
